@@ -20,15 +20,19 @@ class testScraper(unittest.TestCase):
         cats = self.scraper.get_categories()
         assert len(cats)  > 10
         
-    def test_list_mediai_default(self) :
+    def test_list_media_default(self) :
         result = self.scraper.list_media()
-        assert len(result['items']) > 10
+        assert len(result['items']) > 14
         assert result['next_page'] == 2
      
     def test_get_media_link_youTube(self) :
         result = self.scraper.get_media_link('-4771.html')
         assert 'youtube' in result
         
+    def test_get_media_link_flv(self) :
+        res = self.scraper.get_media_link('Ummah_Channel_Interview_Part_1-2080.html')
+        assert 'Interview-1.flv' in res
+       
         
 if __name__ == '__main__':
     unittest.main()
