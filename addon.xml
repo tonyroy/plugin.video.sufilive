@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.sufilive" name="Sufi Live" version="0.1" provider-name="Dawud Roy">
+  <requires>
+    <import addon="xbmc.python" version="2.0"/>
+    <import addon="script.module.xbmcswift2" version="1.1.1"/>
+    <import addon="script.module.beautifulsoup" version="3.2.1"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <language></language>
+    <summary>The Official Media Library of the Naqshbandi Haqqani Sufi order of  America</summary>
+    <description>This Site is dedicated to our beloved spiritual leader , Mawlana Shaykh Nazim Adil Al-Haqqani.  Watch Videos and listen to audio recordings of authentic Sufi Teachings</description>
+  </extension>
+</addon>
