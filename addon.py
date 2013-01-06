@@ -4,7 +4,7 @@ from resources.lib.sufilive import SufiLiveScraper
 plugin = Plugin()
 scraper = SufiLiveScraper()
 
-@plugin.route('/')
+@plugin.cached_route('/')
 def index():
     items = [
         { 'label': 'Latest Sohbet','path': plugin.url_for('list_media', category='Latest', page_no='1')},
@@ -12,7 +12,7 @@ def index():
     ] 
     return items
 
-@plugin.route('/Categories/')
+@plugin.cached_route('/Categories/')
 def show_categories():
     links = scraper.get_categories()
     items = [{
@@ -22,7 +22,7 @@ def show_categories():
     return items
 
 
-@plugin.route('/List/<category>/<page_no>/')
+@plugin.cached_route('/List/<category>/<page_no>/')
 def list_media(category='',page_no='1'):
     plugin.log.debug('page_no =  %s' % page_no)
     try :
@@ -53,12 +53,12 @@ def list_media(category='',page_no='1'):
     return items
 
 
-@plugin.route('/Play/<url>/')
+@plugin.cached_route('/Play/<url>/')
 def play_sohbet(url):
     link = scraper.get_media_link(url)
     if link :
-        plugin.log.debug('playing : %s' % link)
-        plugin.set_resolved_url(url)
+        plugin.log.info('playing : %s' % link)
+        plugin.set_resolved_url(link)
     else :
         plugin.log.error('unable to determine source : %s' % url)
 
