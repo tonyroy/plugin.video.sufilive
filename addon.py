@@ -3,10 +3,11 @@ import re
 import urllib2
 import urlparse
 from BeautifulSoup import BeautifulSoup as BS
+from resources.lib.sufilive import SufiLiveScraper 
 
 BASE_URL = 'http://www.sufilive.com'
 plugin = Plugin()
-
+scraper = SufiLiveScraper()
 
 @plugin.route('/')
 def index():
@@ -19,11 +20,10 @@ def index():
 
 @plugin.route('/Categories/')
 def show_categories():
-    html = _html(BASE_URL)
-    links = html.findAll('a',href=re.compile('.*-\d*-g.html'))
+    links = scraper.get_categories()
     items = [{
-        'label': unicode(link.string),
-        'path' : plugin.url_for('list_media',category=unicode(link.string), page_no='1',url=link['href']),
+        'label': link['label'],
+        'path' : plugin.url_for('list_media',category=link['label'], page_no='1',url=link['path']),
     } for link in links]                               
     return items
 
