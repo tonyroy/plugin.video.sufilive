@@ -25,7 +25,7 @@ def _html(url):
 
 class SufiLiveScraper(object) :
         
-    def get_categories(html):
+    def get_categories(self):
         html = _html(BASE_URL)
         links = html.findAll('a',href=re.compile('.*-\d*-g.html'))
         items = [{
@@ -35,8 +35,8 @@ class SufiLiveScraper(object) :
         return items
     
     
-    def list_media(category='',page_no='1',url='index.cfm'):
-        pager = "?p=%d" % int(page_no)
+    def list_media(self,category='',page_no=1,url='index.cfm'):
+        pager = "?p=%d" % page_no
         full_url = _url(url + pager)
         html = _html(full_url)
         nodes = html.findAll('table',attrs={'background':'/img/titleBg.jpg'})
@@ -49,19 +49,19 @@ class SufiLiveScraper(object) :
         } for node in nodes]
         
         if html.find('a', text=re.compile(r'.*Next.*')) :
-            next_page = str(int(page_no)+1 )
+            next_page = page_no+1 
         else :
             next_page = None
         return ({'items': items, 'next_page': next_page})
     
     
-    def get_media_link(url):
+    def get_media_link(self, url):
         url = _url(url)
         html = _html(url)
         link = html.find('iframe',src=re.compile(".*youtube.*"))
         if link :
             url = link['src']
-            youTubeId = get_youtube_id(link['src'])
+            youTubeId = self.get_youtube_id(link['src'])
             url ='plugin://plugin.video.youtube/?action=play_video&videoid=%s' % youTubeId 
             return (url)
         link = html.find('a', href=re.compile('.*(mp4|flv)$'))
@@ -69,7 +69,7 @@ class SufiLiveScraper(object) :
             return link['href']
         pass
     
-    def get_youtube_id(url):
+    def get_youtube_id(self,url):
         return  url.split('/')[-1]
         
 
