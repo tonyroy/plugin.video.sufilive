@@ -12,7 +12,7 @@ def index():
     ] 
     return items
 
-@plugin.cached_route('/Categories/')
+@plugin.route('/Categories/')
 def show_categories():
     links = scraper.get_categories()
     items = [{
@@ -22,7 +22,7 @@ def show_categories():
     return items
 
 
-@plugin.cached_route('/List/<category>/<page_no>/')
+@plugin.route('/List/<category>/<page_no>/')
 def list_media(category='',page_no='1'):
     plugin.log.debug('page_no =  %s' % page_no)
     try :
@@ -42,9 +42,8 @@ def list_media(category='',page_no='1'):
     if  result['next_page'] :
         next_page = str(result['next_page'] )
         plugin.log.debug('next page is  %s' % next_page)
-        next_link = plugin.url_for('list_media',category=category,page_no=next_page, url=url),
         items.append ({
-            'label' : 'Next (page %s )' % next_page,
+            'label' : 'Next ( page %s )' % next_page,
             'path'   : plugin.url_for('list_media',category=category,page_no=next_page, url=url),
             'is_playable' : False,
         })
@@ -53,7 +52,7 @@ def list_media(category='',page_no='1'):
     return items
 
 
-@plugin.cached_route('/Play/<url>/')
+@plugin.route('/Play/<url>/')
 def play_sohbet(url):
     link = scraper.get_media_link(url)
     if link :

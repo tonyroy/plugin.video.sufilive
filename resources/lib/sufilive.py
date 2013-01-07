@@ -56,18 +56,15 @@ class SufiLiveScraper(object) :
     
     
     def get_media_link(self, url):
-        url = _url(url)
-        html = _html(url)
+        html = _html(_url(url))
         link = html.find('iframe',src=re.compile(".*youtube.*"))
         if link :
-            url = link['src']
             youTubeId = self.get_youtube_id(link['src'])
             url ='plugin://plugin.video.youtube/?action=play_video&videoid=%s' % youTubeId 
-            return (url)
+            return url
         link = html.find('a', href=re.compile('.*(mp4|flv)$'))
         if link :
             return link['href']
-        pass
     
     def get_youtube_id(self,url):
         return  url.split('/')[-1]
